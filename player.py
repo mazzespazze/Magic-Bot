@@ -1,18 +1,18 @@
 class Player:
 
     def __init__(self, name):
-        self.name = name
+        self.name = name.strip()
         self.points = 0
         self.fights = []
 
     def addPoints(self, x):
-        self.points = self.points+x
+        self.points += x
 
     def addFight(self, player):
-        self.fights = self.fights + [player.name]
+        self.fights.append(player.name)
 
     def __str__(self):
-        return str(self.name) + " : " + str(self.points) + " "
+        return str(self.name) + " : " + str(self.points)
 
 def compare(p1,p2):
     if p1.points > p2.points: return 1

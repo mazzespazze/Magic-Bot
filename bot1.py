@@ -33,7 +33,9 @@ bot = commands.Bot(command_prefix='!', description=description)
 
 """ Starting my functions """
 
-splitter = lambda l: [x.strip() for x in l.split(",")]
+def splitter(l): return [x.strip() for x in l.split(",")]
+
+def prettyPrinting(): return [str(x) for x in players]
 
 def fillPlayers(m,players):
     for x in splitter(m): players = players + [p.Player(x.strip())]
@@ -49,6 +51,19 @@ def firstTime(players, msg, i=0):
         players[i], players[i+1] = p1,p2
         return firstTime(players, msg, i + 2)
     return (players,msg)
+
+def new_round(players,tmp=[]):
+    msg = ''
+    for x in players:
+        if x in tmp: continue
+        for y in players:
+            if y in tmp: continue
+            if y.name!=x.name and y.name not in x.fights:
+                msg = msg + str(x.name + " ~ " + y.name + "\t")
+                x.addFight(y),y.addFight(x)
+                tmp.append(x),tmp.append(y)
+                break
+    return(players,msg)
 
 
 """ Starting bot interactions """
@@ -67,8 +82,29 @@ async def t(ctx):
     players, msg = firstTime(players,'Turn 1\t')
     await bot.say(msg)
 
-#@bot.command()
-#async def s(ctx):
+@bot.command()
+async def s(ctx):
+    global players
+    for x in splitter(ctx):
+        tmp_name,score = x.split(":")[0].strip(), int(x.split(":")[1].strip())
+        for i in range(len(players)): #assigning the score
+            if players[i].name == tmp_name:
+                players[i].addPoints(score)
+    players = sorted(players, key= lambda x: x.points, reverse=True)
+    players,msg = new_round(players)
+    print(msg)
+    await bot.say("Turn 2\t"+msg)
 
+@bot.command()
+async def reset():
+    #for x in players: x = p.Player(x.name)
+    global players
+    players = [p.Player(x.name) for x in players]
+    await bot.say(prettyPrinting())
+
+@bot.command()
+async def show():
+    global players
+    await bot.say(prettyPrinting())
 
 bot.run(TOKEN)
