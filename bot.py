@@ -7,7 +7,7 @@ import operator
 #from discord.ext import commands
 #from discord.ext.commands import Bot
 
-TOKEN = 'NDkzNzA5NDAxMzgzNzYzOTY5.Doo7fw.n0VDx3djJKFq6Cer8Kh0x5mutzs'
+TOKEN = 'YOUR TOKEN'
 splitter = lambda l: l[3:].split(",")
 players = []
 prettyPrinting = lambda x: [str(x) for x in players]
