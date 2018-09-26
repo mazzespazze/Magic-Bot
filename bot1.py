@@ -1,6 +1,6 @@
 # Work with Python 3.6
 
-TOKEN = 'NDkzNzA5NDAxMzgzNzYzOTY5.Doo7fw.n0VDx3djJKFq6Cer8Kh0x5mutzs'
+TOKEN = 'YOUR TOKEN'
 
 """
 import discord
