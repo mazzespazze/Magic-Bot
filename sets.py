@@ -29,6 +29,29 @@ sets = {"No Name":              "e:arn or e:atq or e:leq or e:drk or e:fem or e:
         "Ixalan":               "e:xln or e:rix",
         "Post":                 "e:dom or e:grn"}
 
+DUEL_DECKS = [  'Elves vs. Inventors',
+                'Merfolk vs. Goblins',
+                'Mind vs. Might',
+                'Nissa vs. Ob Nixilis',
+                'Blessed vs. Cursed',
+                'Zendikar vs. Eldrazi',
+                'Elspeth vs. Kiora',
+                'Duel Decks Anthology vs. Anthology',
+                'Speed vs. Cunning',
+                'Jace vs. Vraska',
+                'Heroes vs. Monsters',
+                'Sorin vs. Tibalt',
+                'Izzet vs. Golgari',
+                'Venser vs. Koth',
+                'Ajani vs. Nicol Bolas',
+                'Knights vs. Dragons',
+                'Elspeth vs. Tezzeret',
+                'Phyrexia vs. The Coalition',
+                'Garruk vs. Liliana',
+                'Divine vs. Demonic',
+                'Jace vs. Chandra',
+                'Elves vs. Goblins']
+
 def get_sets(number_sets=2):
     if number_sets <= 0: return "You're funny..."
     exps,values = '',[]
@@ -40,5 +63,23 @@ def get_sets(number_sets=2):
     exps = " - ".join(map(str,ret[0::2])) + "\n(" + " or ".join(map(str,ret[1::2])) + ")"
     return exps
 
+def split_list(alist, wanted_parts):
+    """ Given a list it splits in into the wanted parts """
+    length = len(alist)
+    return [ alist[i*length // wanted_parts: (i+1)*length // wanted_parts]
+             for i in range(wanted_parts) ]
+
+def get_duel_decks(players):
+    """ Given a string of players it selects the duel decks.
+        It assumes they are two players """
+    ps = players.split(",")
+    random.shuffle(ps)
+    N = random.randint(0,len(DUEL_DECKS)-1)
+    DD = DUEL_DECKS[N].split("vs.")
+    return "SET:" + DUEL_DECKS[N] + "\n"+ps[0]+" uses: " + DD[0]+ "\t\t" + ps[1] + " uses: " + DD[1] + "\n"
+
 if __name__ == '__main__':
     print(get_sets(2))
+    print(get_duel_decks("A,B"))
+    print(get_duel_decks("C,D"))
+    print(get_duel_decks("E,F"))
