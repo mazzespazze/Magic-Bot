@@ -1,25 +1,6 @@
 # Work with Python 3.6
 import random
-TOKEN = 'NDkzNzA5NDAxMzgzNzYzOTY5.Doo7fw.n0VDx3djJKFq6Cer8Kh0x5mutzs'
 
-"""
-import discord
-from discord.ext import commands
-from discord.ext.commands import Bot
-import asyncio
-#import chalk
-
-bot = commands.Bot(command_prefix="!")
-
-@bot.event
-async def on_ready():
-    print("Yo")
-
-@bot.event(pass_context=True)
-async def ping(ctx):
-    await bot.say("pong")
-bot.run(TOKEN)
-"""
 
 import discord
 from discord.ext import commands
@@ -29,14 +10,12 @@ from sets import *
 
 description = '''An example bot to showcase the discord.ext.commands extension module.
 There are a number of utility commands being showcased here.'''
-players,turns = [],1
+REAL_PLAYERS, TURNS = list(),1
 bot = commands.Bot(command_prefix='!', description=description)
 
 """ Starting my functions """
 
 def splitter(l): return [x.strip().lower() for x in l.split(",")]
-
-def prettyPrinting(): return [str(x) for x in players]
 
 def fillPlayers(m,players):
     """ Given a string it fill is the player and the last one gets
@@ -108,8 +87,20 @@ async def first(ctx):
         players,msg = new_round(players)
         await bot.say("Turn "+ str(turns)+"\t"+msg)"""
     players = ctx.strip().split(",")
-    random.shuffle(players)
-    await bot.say(players)
+    global REAL_PLAYERS, TURNS
+    for pl in players:
+        REAL_PLAYERS.append(p.Player(pl))
+    random.shuffle(REAL_PLAYERS)
+    MATCH, GAME = "TURN: " + str(TURNS) + "\n", 1
+    for x in range(0,len(REAL_PLAYERS),2):
+        if x + 1 >= len(REAL_PLAYERS):
+            MATCH += REAL_PLAYERS[x].get_name() + " gets the PASS"
+            REAL_PLAYERS[x].set_pass()
+        else:
+            MATCH += "GAME " + str(GAME) + ":\t"
+            GAME+=1
+            MATCH += REAL_PLAYERS[x].get_name() + " vs " + REAL_PLAYERS[x+1].get_name() + "\n"
+    await bot.say(MATCH)
 
 @bot.command()
 async def reset():
@@ -123,6 +114,20 @@ async def roll(ctx):
     if n <= 0: n = 1
     await bot.say(r.randint(1,n))
 
+
+
+@bot.command()
+async def rank():
+    """ Printing the ranking of the current players"""
+    global REAL_PLAYERS
+    SHOW, RANK = "", 1
+    SORTED = p.sorted_players_for_ranking(REAL_PLAYERS)
+    for pl in SORTED:
+        SHOW += str(RANK) + ")\t" + str(pl) + "\n"
+        RANK += 1
+    await bot.say(SHOW)
+
+""" Some fun utilities / functions """
 @bot.command()
 async def sets(ctx):
     await bot.say(get_sets(int(ctx.strip())))
@@ -130,11 +135,5 @@ async def sets(ctx):
 @bot.command()
 async def duel_deck(ctx):
     await bot.say(get_duel_decks(ctx.strip()))
-
-
-@bot.command()
-async def show():
-    global players
-    await bot.say(prettyPrinting())
 
 bot.run(TOKEN)
