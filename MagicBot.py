@@ -1,6 +1,6 @@
 # Work with Python 3.6
 import random
-
+TOKEN = 'NDkzNzA5NDAxMzgzNzYzOTY5.Doo7fw.n0VDx3djJKFq6Cer8Kh0x5mutzs'
 
 import discord
 from discord.ext import commands
@@ -72,20 +72,6 @@ async def t(ctx):
 
 @bot.command()
 async def first(ctx):
-    """global players,turns
-    for x in splitter(ctx):
-        tmp_name,score = x.split(":")[0].strip(), int(x.split(":")[1].strip())
-        for i in range(len(players)): #assigning the score
-            if players[i].name == tmp_name:
-                players[i].addPoints(score)
-    players = sorted(players, key= lambda x: x.points, reverse=True)
-    turns += 1
-    print(turns,players,len(players))
-    if (turns+1) == len(players)/2:
-        await bot.say("WINNER:\t" + str(prettyPrinting()))
-    else:
-        players,msg = new_round(players)
-        await bot.say("Turn "+ str(turns)+"\t"+msg)"""
     players = ctx.strip().split(",")
     global REAL_PLAYERS, TURNS
     for pl in players:
@@ -109,14 +95,6 @@ async def reset():
     await bot.say(prettyPrinting())
 
 @bot.command()
-async def roll(ctx):
-    n = int(ctx.strip())
-    if n <= 0: n = 1
-    await bot.say(r.randint(1,n))
-
-
-
-@bot.command()
 async def rank():
     """ Printing the ranking of the current players"""
     global REAL_PLAYERS
@@ -130,10 +108,18 @@ async def rank():
 """ Some fun utilities / functions """
 @bot.command()
 async def sets(ctx):
+    """ It prints to discord a random choice of sets """
     await bot.say(get_sets(int(ctx.strip())))
 
 @bot.command()
 async def duel_deck(ctx):
+    """ It gives a random set of duel_decks assigning the players to it"""
     await bot.say(get_duel_decks(ctx.strip()))
+
+@bot.command()
+async def roll(ctx):
+    n = int(ctx.strip())
+    if n <= 0: n = 1
+    await bot.say(r.randint(1,n))
 
 bot.run(TOKEN)
