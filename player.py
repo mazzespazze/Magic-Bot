@@ -51,9 +51,11 @@ class Player:
     def __repr__(self):
         return str(self.name) + " with score " + str(self.points) + self.pass_string
 
+""" Useful global functions that manage list of players based on ranking and matching """
 
 def global_sorting(REAL_PLAYERS, value):
-    """ Sorting according to the value """
+    """ Sorting according to the value and checking if a player won against a second
+        one boosting in case of victory """
     ZIPPED_PLAYERS = list()
     for pl in REAL_PLAYERS:
         POINTS = pl.get_points()
@@ -85,12 +87,42 @@ def sorted_players_for_ranking(REAL_PLAYERS):
     """ Here the PASS boolean will be considered as 1.5 """
     return global_sorting(REAL_PLAYERS, 1.5)
 
+def check_pass(PLAYERS_SORTED):
+    INDEX = 0
+    for pl in PLAYERS_SORTED[::-1]:
+        print(INDEX)
+        if not pl.has_pass():
+            break
+        INDEX += 1
+    return len(PLAYERS_SORTED) - INDEX - 1
+    #returning the index of the pass
+
 def sorted_players_for_playing(REAL_PLAYERS):
-    """ Here the PASS boolean will be considered as 2.5 """
-    return global_sorting(REAL_PLAYERS, 2.5)
+    """ Here the PASS boolean will be considered as 2.5
+        NOTE: the simple sorting does not suffice. We need to check if two players
+        did already a match against each other! And the last one cannot have a PASS if
+        it already got it """
+        #TODO function that checks the matches before calling the new game
+    PLAYERS_SORTED = global_sorting(REAL_PLAYERS, 2.5)
+    """ Solving the first contraint: going from the bottom of the list taking the first
+        that does not have a pass """
+    PASS = len(PLAYERS_SORTED) % 2 == 1 #if even is False, True otherwise
+    INDEX_PASS = -1 #assuming is the last position
+    if PASS:
+        INDEX_PASS = check_pass(PLAYERS_SORTED)
+        print(INDEX_PASS)
+        if not INDEX_PASS == len(PLAYERS_SORTED) - 1: #only if it is not the last position then we perform a swap
+            pass_player = PLAYERS_SORTED[INDEX_PASS] #saving pass player
+            del PLAYERS_SORTED[INDEX_PASS] #deleting the pass player from its original position
+            PLAYERS_SORTED.append(pass_player) #adding the pass player as last
+    """ Now we build a new list. Before checking the second constraint (never repeat the
+        same match) we add PASS player to the list and we remove it from PLAYERS_SORTED"""
+        
+    return PLAYERS_SORTED
 
 def find_players(REAL_PLAYERS, NAMES):
-    """ Assuming the names are only two """
+    """ Assuming the names in @NAMES are only two """
+    assert len(NAMES) == 2
     PLAYERS = list()
     for pl in REAL_PLAYERS:
         if pl.get_name() in NAMES:
@@ -100,6 +132,7 @@ def find_players(REAL_PLAYERS, NAMES):
 if __name__ == '__main__':
     x = Player("Matteo")
     x.add_points(5)
+    x.set_pass()
     y = Player("Michaela")
     y.add_points(7)
     z = Player("Ivan")
@@ -108,7 +141,13 @@ if __name__ == '__main__':
     w = Player("Stergios")
     w.add_points(6)
     L = [x,y,z,w]
-    print(sorted_players_for_ranking(L))
+    print(sorted_players_for_ranking(L), "\n\n",sorted_players_for_playing(L),"\n\n")
+    A,B,C = Player("Matteo1"), Player("Matteo2"), Player("Matteo3")
+    A.add_points(2.5)
+    C.add_points(2.5)
+    B.set_pass() #everyone has 2.5
+    C.set_pass()
+    print(sorted_players_for_playing([A,B,C])) #A has to be last, since the only one without a pass!
     """ Testing won list """
     for x in range(100):
         A, B, C = Player("Matteo1"), Player("Matteo2"), Player("Matteo3")
