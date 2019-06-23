@@ -1,5 +1,12 @@
 import random
-sets = {"No Name":              "e:arn or e:atq or e:leq or e:drk or e:fem or e:hml",
+
+SCRY_FALL_EXPANSIONS = ["arn","atq","leg","drk","fem","ice","hml","all","mir","vis","wth","tmp","sth","exo","usg","ulg","uds","mmq","nem","pcy"
+                        "inv","pls","apc","ody","tor","jud","ons","lgn","scg","mrd","dst","5dn","chk","bok","sok","rav","gpt","dis","csp","tsp",
+                        "tsb","plc","fut","lrw","mor","shm","eve","ala","con","arb","zen","wwk","roe","som","mbs","nph","isd","dka","avr","rtr",
+                        "gtc","dgm","ths","bng","jou","ktk","frf","dtk","bfz","ogw","soi","emn","kld","aer","akh","hou","xln","rix","dom","grn",
+                        "rna","war"]
+
+SETS = {"No Name":              "e:arn or e:atq or e:leq or e:drk or e:fem or e:hml",
         "Ice Age":              "e:ice or e:all",
         "Mirage":               "e:mis or e:vis or e:wth",
         "Tempest":              "e:tmp or e:sth or e:exo",
@@ -55,7 +62,7 @@ DUEL_DECKS = [  'Elves vs. Inventors',
 def get_sets(number_sets=2):
     if number_sets <= 0: return "You're funny..."
     exps,values = '',[]
-    ks,vs,ret = list(sets.keys()),list(sets.values()),[]
+    ks,vs,ret = list(SETS.keys()),list(SETS.values()),[]
     for x in range(number_sets):#first it selects the expansion title
         new_val = random.randint(0,len(ks)-1)
         if new_val in values: continue
