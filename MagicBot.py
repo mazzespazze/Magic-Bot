@@ -1,6 +1,6 @@
 # Work with Python 3.6
 import random
-TOKEN = 'NDkzNzA5NDAxMzgzNzYzOTY5.Doo7fw.n0VDx3djJKFq6Cer8Kh0x5mutzs'
+TOKEN = 'YOUR_TOKEN'
 
 import discord
 from discord.ext import commands
@@ -12,46 +12,6 @@ description = '''An example bot to showcase the discord.ext.commands extension m
 There are a number of utility commands being showcased here.'''
 REAL_PLAYERS, TURNS = list(),1
 bot = commands.Bot(command_prefix='!', description=description)
-
-""" Starting my functions """
-
-def splitter(l): return [x.strip().lower() for x in l.split(",")]
-
-def fillPlayers(m,players):
-    """ Given a string it fill is the player and the last one gets
-        a pass in case of odd number of players """
-    for x in splitter(m):
-        players = players + [p.Player(x)]
-    r.shuffle(players)
-    if len(players) % 2 != 0: players = players + [p.Player("PASS")]
-    return players
-
-def firstTime(players, msg, i=0):
-    """ It """
-    if i < len(players):
-        p1,p2 = players[i],players[i+1]
-        msg = msg + str("\nRoom " + str(int(i/2)+1) + "\t" + p1.name + " ~ " + p2.name)
-        p1.addFight(p2), p2.addFight(p1)
-        players[i], players[i+1] = p1,p2
-        return firstTime(players, msg, i + 2)
-    return (players,msg)
-
-def new_round(players,tmp=[]):
-    msg,i = '',1
-    for x in players:
-        if x in tmp:
-            continue
-        for y in players:
-            if y in tmp:
-                continue
-            if y.name!=x.name and y.name not in x.fights:
-                msg = msg + str("\nRoom " + str(i) + "\t"+ x.name + " ~ " + y.name + "\t")
-                x.addFight(y),y.addFight(x)
-                i = i + 1
-                tmp.append(x),tmp.append(y)
-                break
-    return(players,msg)
-
 
 """ Starting bot interactions """
 @bot.event
