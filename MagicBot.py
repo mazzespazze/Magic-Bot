@@ -67,6 +67,8 @@ async def set_scores(ctx):
         elif ACTUAL_SCORE == '1-2':
             pp[0].add_points(1)
             pp[1].add_points(2)
+    """ Now the scores are done """
+
 
 @bot.command()
 async def next(ctx):
@@ -98,6 +100,7 @@ async def rank():
 
 """ Some fun utilities / functions that just add flavour but do not add anything
     for a tournament """
+
 @bot.command()
 async def sets(ctx):
     """ It prints to discord a random choice of sets """
