@@ -124,14 +124,12 @@ def sorted_players_for_playing(REAL_PLAYERS):
     PLAYERS_SORTED.append(PASS_PLAYER)
     return PLAYERS_SORTED
 
-def find_players(REAL_PLAYERS, NAMES):
+def find_player(REAL_PLAYERS, NAME):
     """ Assuming the names in @NAMES are only two """
-    assert len(NAMES) == 2
     PLAYERS = list()
     for pl in REAL_PLAYERS:
-        if pl.get_name() in NAMES:
-            PLAYERS.append(pl)
-    return PLAYERS
+        if pl.get_name() == NAME:
+            return pl
 
 def check_legality(LIST):
     """ @LIST is a list of lists and it filters out all the non legal combinations:
