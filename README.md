@@ -34,7 +34,7 @@ I have resetted all players as from the start :)
 ### End
 
 The bot will terminate automatically after "N" turns. The number of turns is calculated following the formula:
-![equation](http://latex.codecogs.com/gif.latex?Concentration%3D%5Cfrac%7BTotalTemplate%7D%7BTotalVolume%7D)
+$$x_{1,2} = \frac{-b \pm \sqrt{b^2-4ac}}{2b}.$$
 
 You can check all the commands in the wiki of this project!
 
@@ -49,6 +49,12 @@ I will maintain it as long as we play Magic and as long as we want to keep using
 You should check to have python3 on your system. After that you just execute \$python3 MagicBot.py
 
 NOTE: you should install discord module for python3: \$python3 -m pip install discord
+Complete commands (assuming python3 is installed):
+
+```
+$git clone https://github.com/mazzespazze/Magic-Bot.git
+$python3 -m pip install discord
+```
 
 ## Tests
 
