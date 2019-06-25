@@ -34,10 +34,7 @@ I have resetted all players as from the start :)
 ### End
 
 The bot will terminate automatically after "N" turns. The number of turns is calculated following the formula:
-$`a^2+b^2=c^2`$.
-```
-Turns = log{\sigma}{\sqrt{n}}
-```
+<img src="https://latex.codecogs.com/svg.latex?\Large&space;Turns=\log_2{|Players|}" title="\Large Turns=\log_2{|Players|}" />
 
 You can check all the commands in the wiki of this project!
 
