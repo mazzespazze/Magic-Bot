@@ -35,7 +35,7 @@ I have resetted all players as from the start :)
 
 The bot will terminate automatically after "N" turns. The number of turns is calculated following the formula:
 
-```math
+```
 SE = \frac{\sigma}{\sqrt{n}}
 ```
 
